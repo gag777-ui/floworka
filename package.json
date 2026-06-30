@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.107.0",
     "@fontsource/space-grotesk": "^5.2.10",
     "framer-motion": "^12.42.0",
     "geist": "^1.7.2",

@@ -1,9 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
 import { FLOWORKA_SYSTEM_PROMPT } from "@/lib/knowledge";
-
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
@@ -12,23 +7,51 @@ export async function POST(req: Request) {
     return new Response("Messages invalides", { status: 400 });
   }
 
-  const stream = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 512,
-    system: FLOWORKA_SYSTEM_PROMPT,
-    messages,
-    stream: true,
+  const resp = await fetch("https://api.deepseek.com/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "deepseek-chat",
+      max_tokens: 512,
+      stream: true,
+      messages: [
+        { role: "system", content: FLOWORKA_SYSTEM_PROMPT },
+        ...messages,
+      ],
+    }),
   });
 
+  if (!resp.ok || !resp.body) {
+    return new Response("Erreur DeepSeek", { status: 502 });
+  }
+
   const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+
   const readable = new ReadableStream({
     async start(controller) {
-      for await (const event of stream) {
-        if (
-          event.type === "content_block_delta" &&
-          event.delta.type === "text_delta"
-        ) {
-          controller.enqueue(encoder.encode(event.delta.text));
+      const reader = resp.body!.getReader();
+      let buf = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split("\n");
+        buf = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") break;
+          try {
+            const chunk = JSON.parse(data);
+            const text = chunk.choices?.[0]?.delta?.content;
+            if (text) controller.enqueue(encoder.encode(text));
+          } catch {
+            // ignore malformed chunks
+          }
         }
       }
       controller.close();
