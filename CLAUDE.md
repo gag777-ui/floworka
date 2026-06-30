@@ -130,15 +130,22 @@ DEEPSEEK_API_KEY=...
 
 | Check | Resultat |
 |---|---|
-| `npm run build` | OK — 7 routes generees |
-| `/` (home) | 200 OK |
-| `/mentions-legales` | 200 OK — email = contact@floworka.com |
-| `/confidentialite` | 200 OK |
+| `npm run lint` | OK — 0 erreur |
+| `npm run build` | OK — 7 routes generees, TypeScript OK |
+| `GET /` | 200 OK |
+| `GET /mentions-legales` | 200 OK — email = contact@floworka.com |
+| `GET /confidentialite` | 200 OK — email + provider (DeepSeek) corriges |
 | `POST /api/chat` | OK — DeepSeek repond en streaming, lang injecte |
 | `POST /api/contact` | OK — Resend envoie depuis contact@floworka.com |
 | `POST /api/lead` | OK — lead chatbot envoie email formate |
-| Headers securite | OK — X-Frame-Options, nosniff, XSS-Protection, Referrer-Policy |
-| HTML injection | OK — escapeHtml sur tous les champs |
+| Injection de role `/api/chat` | OK — messages `system` filtres, bloque |
+| Champ trop long → 400 | OK |
+| Email invalide `/api/lead` → 400 | OK |
+| Champs manquants → 400 | OK |
+| Headers securite (prod) | OK — X-Frame-Options, nosniff, XSS-Protection, Referrer-Policy, Permissions-Policy |
+| HTML injection | OK — escapeHtml sur tous les champs emails |
+| Ancien email `gag_zconcept` | OK — nettoye partout (mentions-legales + confidentialite) |
+| Cles API exposees cote client | OK — aucune |
 
 ## Logo / assets
 
