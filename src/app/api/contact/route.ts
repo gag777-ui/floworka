@@ -13,11 +13,11 @@ export async function POST(req: Request) {
     return Response.json({ error: "Adresse email invalide" }, { status: 400 });
   }
 
-  const toEmail = process.env.CONTACT_EMAIL ?? "gag_zconcept@hotmail.com";
+  const toEmail = process.env.CONTACT_EMAIL ?? "contact@floworka.com";
 
   try {
     await resend.emails.send({
-      from: "Flow <onboarding@resend.dev>",
+      from: "Flow <noreply@floworka.com>",
       to: [toEmail],
       replyTo: email,
       subject: `[Floworka] Nouveau message — ${projectType ?? "Non précisé"}`,
