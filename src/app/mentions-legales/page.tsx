@@ -30,7 +30,7 @@ export default function MentionsLegales() {
             <p>[NOM_COMPLET_OU_RAISON_SOCIALE]</p>
             <p>[STATUT_JURIDIQUE] — [NUMÉRO_TVA_SI_APPLICABLE]</p>
             <p>[ADRESSE]</p>
-            <p>Email : gag_zconcept@hotmail.com</p>
+            <p>Email : contact@floworka.com</p>
           </section>
 
           <section>
