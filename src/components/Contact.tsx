@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-const projectTypes = [
-  "Site ou landing",
-  "Application web",
-  "Automatisation",
-  "Assistant IA",
-  "Je ne sais pas encore",
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Contact() {
+  const { t } = useLanguage();
+  const c = t.contact;
+
   const [form, setForm] = useState({ name: "", email: "", projectType: "", message: "" });
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -45,40 +41,37 @@ export default function Contact() {
     <section id="contact" className="flow-contact px-5 py-24 sm:px-8" aria-label="Contact">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div className="flow-contact-copy">
-          <p className="flow-kicker">On ouvre le chantier ?</p>
-          <h2 className="flow-heading">Envoyez le vrai besoin, meme en vrac.</h2>
-          <p>
-            Une idee, un outil interne fatigue, une page a refaire, un automatisme qui manque :
-            envoyez le contexte. Je vous reponds avec une premiere lecture claire.
-          </p>
-          <a className="flow-contact-email" href="mailto:gag_zconcept@hotmail.com">
-            gag_zconcept@hotmail.com
+          <p className="flow-kicker">{c.kicker}</p>
+          <h2 className="flow-heading">{c.h2}</h2>
+          <p>{c.p}</p>
+          <a className="flow-contact-email" href="mailto:contact@floworka.com">
+            contact@floworka.com
           </a>
         </div>
 
         {state === "success" ? (
           <div className="flow-success" role="status">
-            <span>Message envoye.</span>
-            <p>Bien recu. Je reviens vers vous rapidement avec une reponse utile.</p>
+            <span>{c.successTitle}</span>
+            <p>{c.successP}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flow-form" noValidate>
             <div className="flow-form-row">
               <label>
-                <span>Nom</span>
-                <input name="name" value={form.name} onChange={handleChange} required placeholder="Votre nom" />
+                <span>{c.labelName}</span>
+                <input name="name" value={form.name} onChange={handleChange} required placeholder={c.placeholderName} />
               </label>
               <label>
-                <span>Email</span>
-                <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="vous@exemple.com" />
+                <span>{c.labelEmail}</span>
+                <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder={c.placeholderEmail} />
               </label>
             </div>
 
             <label>
-              <span>Terrain</span>
+              <span>{c.labelTerrain}</span>
               <select name="projectType" value={form.projectType} onChange={handleChange}>
-                <option value="">Choisir une piste</option>
-                {projectTypes.map((type) => (
+                <option value="">{c.placeholderTerrain}</option>
+                {c.projectTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -87,23 +80,23 @@ export default function Contact() {
             </label>
 
             <label>
-              <span>Message</span>
+              <span>{c.labelMessage}</span>
               <textarea
                 name="message"
                 value={form.message}
                 onChange={handleChange}
                 required
                 rows={6}
-                placeholder="Ce que vous voulez changer, automatiser, lancer ou comprendre..."
+                placeholder={c.placeholderMessage}
               />
             </label>
 
             {state === "error" && (
-              <p className="flow-error">Le message n&apos;est pas parti. Reessayez dans un instant.</p>
+              <p className="flow-error">{c.error}</p>
             )}
 
             <button type="submit" disabled={state === "loading"} className="flow-submit">
-              {state === "loading" ? "Envoi..." : "Envoyer"}
+              {state === "loading" ? c.loading : c.submit}
             </button>
           </form>
         )}

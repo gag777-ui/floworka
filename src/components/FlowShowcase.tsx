@@ -2,35 +2,13 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-
-const nodes = [
-  { label: "Brief", x: "8%", y: "18%" },
-  { label: "Tri", x: "34%", y: "9%" },
-  { label: "IA", x: "66%", y: "18%" },
-  { label: "App", x: "17%", y: "61%" },
-  { label: "Auto", x: "48%", y: "47%" },
-  { label: "Live", x: "74%", y: "68%" },
-];
-
-const lanes = [
-  "site qui convertit",
-  "outil interne",
-  "assistant IA",
-  "workflow automatise",
-  "interface claire",
-  "lancement propre",
-];
-
-const consoleLines = [
-  "capture besoin brut",
-  "detecte friction principale",
-  "dessine parcours utile",
-  "connecte outils existants",
-  "livre version utilisable",
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function FlowShowcase() {
   const ref = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
+  const { showcase } = t;
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -45,7 +23,7 @@ export default function FlowShowcase() {
     <section ref={ref} className="flow-lab" aria-label="Moteur Floworka">
       <div className="flow-marquee" aria-hidden="true">
         <div>
-          {[...lanes, ...lanes].map((lane, index) => (
+          {[...showcase.lanes, ...showcase.lanes].map((lane, index) => (
             <span key={`${lane}-${index}`}>{lane}</span>
           ))}
         </div>
@@ -53,13 +31,9 @@ export default function FlowShowcase() {
 
       <div className="flow-lab-sticky">
         <div className="flow-lab-copy">
-          <p className="flow-kicker">Le moteur sous le capot</p>
-          <h2 className="flow-heading">On ne pose pas juste une belle page. On installe un flux.</h2>
-          <p>
-            Chaque projet est pense comme une petite machine : une entree confuse, un parcours clair,
-            des actions qui partent seules, et une sortie que vos clients ou votre equipe comprennent
-            instantanement.
-          </p>
+          <p className="flow-kicker">{showcase.kicker}</p>
+          <h2 className="flow-heading">{showcase.h2}</h2>
+          <p>{showcase.p}</p>
         </div>
 
         <motion.div className="flow-engine" style={{ y: panelY }}>
@@ -74,17 +48,17 @@ export default function FlowShowcase() {
             <motion.div className="flow-map-line flow-map-line-a" style={{ scaleX: lineScale }} />
             <motion.div className="flow-map-line flow-map-line-b" style={{ scaleX: lineScale }} />
             <motion.div className="flow-map-line flow-map-line-c" style={{ scaleX: lineScale }} />
-            {nodes.map((node, index) => (
+            {showcase.nodes.map((label, index) => (
               <motion.div
-                key={node.label}
+                key={label}
                 className="flow-node"
-                style={{ left: node.x, top: node.y }}
+                style={{ left: ["8%", "34%", "66%", "17%", "48%", "74%"][index], top: ["18%", "9%", "18%", "61%", "47%", "68%"][index] }}
                 initial={{ opacity: 0, scale: 0.82 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ delay: index * 0.08, duration: 0.42 }}
               >
-                <span>{node.label}</span>
+                <span>{label}</span>
               </motion.div>
             ))}
           </div>
@@ -98,19 +72,19 @@ export default function FlowShowcase() {
             <div className="flow-cockpit-grid">
               <div>
                 <p>input</p>
-                <strong>idee brute</strong>
+                <strong>{showcase.cockpit.input}</strong>
               </div>
               <div>
-                <p>systeme</p>
-                <strong>workflow</strong>
+                <p>system</p>
+                <strong>{showcase.cockpit.system}</strong>
               </div>
               <div>
-                <p>sortie</p>
-                <strong>outil vivant</strong>
+                <p>output</p>
+                <strong>{showcase.cockpit.output}</strong>
               </div>
             </div>
             <div className="flow-console-lines">
-              {consoleLines.map((line) => (
+              {showcase.consoleLines.map((line) => (
                 <span key={line}>{line}</span>
               ))}
             </div>
@@ -120,13 +94,10 @@ export default function FlowShowcase() {
 
       <div className="flow-lab-bottom">
         <div>
-          <p className="flow-kicker">Ce que ca change</p>
-          <h3>Le site devient une piece du systeme, pas une affiche oubliee.</h3>
+          <p className="flow-kicker">{showcase.bottomKicker}</p>
+          <h3>{showcase.bottomH3}</h3>
         </div>
-        <p>
-          Formulaire, assistant, tableau de bord, automatisation, relance, notification, base de donnees :
-          on choisit seulement les briques qui creent un vrai mouvement.
-        </p>
+        <p>{showcase.bottomP}</p>
       </div>
     </section>
   );

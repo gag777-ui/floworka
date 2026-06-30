@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import ScrollProgress from "@/components/ScrollProgress";
 import Nav from "@/components/Nav";
@@ -5,39 +7,11 @@ import FlowShowcase from "@/components/FlowShowcase";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
-
-const proofLines = [
-  "Automatiser ce qui use votre temps.",
-  "Transformer une idee floue en outil utilisable.",
-  "Lancer une presence web qui donne envie d'agir.",
-];
-
-const matterBlocks = [
-  "Pages qui donnent une direction",
-  "Outils internes plus rapides",
-  "Assistants IA branches au reel",
-  "Automatisations propres",
-];
-
-const atelierLines = [
-  {
-    label: "01",
-    title: "On clarifie",
-    text: "Une conversation nette, des priorites, un premier angle. Pas de grande theorie.",
-  },
-  {
-    label: "02",
-    title: "On construit",
-    text: "Interface, automatisation, IA ou site : on assemble ce qui sert vraiment le projet.",
-  },
-  {
-    label: "03",
-    title: "On met en ligne",
-    text: "Une version propre, rapide, mesurable. Puis on ajuste avec le reel.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <>
       <ScrollProgress />
@@ -62,25 +36,20 @@ export default function Home() {
                 />
                 <div>
                   <p className="brand-name">Floworka</p>
-                  <p className="brand-subtitle">Automatisation & creation</p>
+                  <p className="brand-subtitle">{t.hero.brandSubtitle}</p>
                 </div>
               </div>
 
-              <p className="flow-kicker">Studio pour projets qui doivent avancer</p>
-              <h1 className="flow-title">
-                Des outils web qui bossent pendant que vous avancez.
-              </h1>
-              <p className="flow-lead">
-                Floworka cree des sites, des apps et des automatisations avec une obsession simple :
-                retirer le bruit, garder le geste utile, livrer quelque chose qui bouge.
-              </p>
+              <p className="flow-kicker">{t.hero.kicker}</p>
+              <h1 className="flow-title">{t.hero.h1}</h1>
+              <p className="flow-lead">{t.hero.lead}</p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a href="#contact" className="flow-button flow-button-primary">
-                  Parler du projet
+                  {t.hero.ctaPrimary}
                 </a>
                 <a href="#atelier" className="flow-button flow-button-ghost">
-                  Voir l&apos;approche
+                  {t.hero.ctaSecondary}
                 </a>
               </div>
             </div>
@@ -94,10 +63,9 @@ export default function Home() {
                 <span className="flow-orbit-scan" />
               </div>
               <div className="flow-console">
-                <span>floworka.boot</span>
-                <span>signal clair</span>
-                <span>friction -42%</span>
-                <span>mode wow</span>
+                {t.hero.console.map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -105,24 +73,37 @@ export default function Home() {
 
         <FlowShowcase />
 
+        <section className="flow-campaign px-5 py-24 sm:px-8" aria-label="Campagne visuelle Floworka">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="flow-kicker">{t.campaign.kicker}</p>
+              <h2 className="flow-heading">{t.campaign.h2}</h2>
+              <p className="flow-section-copy">{t.campaign.p}</p>
+            </div>
+            <div className="flow-campaign-visual">
+              <Image
+                src="/floworka-instagram-puzzle.png"
+                alt={t.campaign.imgAlt}
+                width={1200}
+                height={1200}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
         <section id="atelier" className="flow-section px-5 py-24 sm:px-8" aria-label="Approche">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <div>
-                <p className="flow-kicker">Pas une usine, un atelier</p>
-                <h2 className="flow-heading">
-                  Peu de couches. Beaucoup de precision.
-                </h2>
+                <p className="flow-kicker">{t.atelier.kicker}</p>
+                <h2 className="flow-heading">{t.atelier.h2}</h2>
               </div>
-              <p className="flow-section-copy">
-                Je ne vends pas une liste interminable de prestations. Je prends un probleme concret,
-                je le rends visible, puis je fabrique la piece digitale qui manque : une interface, un
-                workflow, un assistant, une page qui convertit.
-              </p>
+              <p className="flow-section-copy">{t.atelier.p}</p>
             </div>
 
             <div className="flow-rail mt-16">
-              {atelierLines.map((item) => (
+              {t.atelier.steps.map((item) => (
                 <article className="flow-step" key={item.label}>
                   <span>{item.label}</span>
                   <h3>{item.title}</h3>
@@ -136,12 +117,12 @@ export default function Home() {
         <section className="flow-matter px-5 py-24 sm:px-8" aria-label="Matiere construite">
           <div className="mx-auto max-w-7xl">
             <div className="flow-matter-head">
-              <p className="flow-kicker">Plus de surface, moins de blabla</p>
-              <h2 className="flow-heading">On donne une forme visible a ce qui etait dans votre tete.</h2>
+              <p className="flow-kicker">{t.matter.kicker}</p>
+              <h2 className="flow-heading">{t.matter.h2}</h2>
             </div>
             <div className="flow-matter-grid">
-              {matterBlocks.map((block, index) => (
-                <div className="flow-matter-tile" key={block}>
+              {t.matter.blocks.map((block, index) => (
+                <div className="flow-matter-tile" key={index}>
                   <span>0{index + 1}</span>
                   <p>{block}</p>
                 </div>
@@ -156,9 +137,9 @@ export default function Home() {
               <Image src="/floworka-mark-transparent.png" alt="" width={280} height={280} className="h-full w-full object-contain" />
             </div>
             <div>
-              <p className="flow-kicker">Ce qu&apos;on vient chercher ici</p>
+              <p className="flow-kicker">{t.strip.kicker}</p>
               <div className="flow-lines">
-                {proofLines.map((line) => (
+                {t.strip.lines.map((line) => (
                   <p key={line}>{line}</p>
                 ))}
               </div>

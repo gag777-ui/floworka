@@ -40,6 +40,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+import { LanguageProvider } from "@/contexts/LanguageContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,7 +49,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={GeistSans.variable}>
-      <body className="bg-ink text-text antialiased">{children}</body>
+      <body className="bg-ink text-text antialiased">
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

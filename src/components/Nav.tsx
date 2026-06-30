@@ -3,15 +3,17 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const links = [
-  { label: "Approche", href: "#atelier" },
-  { label: "Contact", href: "#contact" },
-];
+import LangSwitcher from "@/components/LangSwitcher";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const links = [
+    { label: t.nav.approach, href: "#atelier" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -28,37 +30,25 @@ export default function Nav() {
           <span className="font-display text-sm font-semibold tracking-[0.28em] text-white uppercase">Floworka</span>
         </Link>
 
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-5 md:flex">
           {links.map((link) => (
             <a key={link.href} href={link.href} className="text-sm font-medium text-white/62 transition hover:text-white">
               {link.label}
             </a>
           ))}
+          <LangSwitcher />
           <a href="#contact" className="flow-nav-cta">
-            Demarrer
+            {t.nav.start}
           </a>
         </div>
 
-        <button
-          type="button"
-          className="flow-menu md:hidden"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label="Menu"
-        >
-          <span />
-          <span />
-        </button>
-      </nav>
-
-      <div id="mobile-menu" className={`flow-mobile-menu md:hidden ${open ? "is-open" : ""}`} aria-hidden={!open}>
-        {links.map((link) => (
-          <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
-            {link.label}
+        <div className="flex items-center gap-3 md:hidden">
+          <LangSwitcher />
+          <a href="#contact" className="flow-nav-cta">
+            {t.nav.start}
           </a>
-        ))}
-      </div>
+        </div>
+      </nav>
     </header>
   );
 }
