@@ -4,16 +4,42 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
+type Lang = "fr" | "en" | "ru";
+
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const SUGGESTIONS = [
-  "Quels types de projets réalisez-vous ?",
-  "Quels sont vos délais ?",
-  "Comment démarrer un projet ?",
-];
+const WELCOME: Record<Lang, string> = {
+  fr: "Bonjour ! Je suis Flow, l’assistant de Floworka. Comment puis-je vous aider ?",
+  en: "Hello! I’m Flow, Floworka’s assistant. How can I help you?",
+  ru: "Привет! Я Flow, ассистент Floworka. Чем могу помочь?",
+};
+
+const SUGGESTIONS: Record<Lang, string[]> = {
+  fr: [
+    "Quels types de projets réalisez-vous ?",
+    "Quels sont vos délais ?",
+    "Comment démarrer un projet ?",
+  ],
+  en: [
+    "What types of projects do you build?",
+    "What are your timelines?",
+    "How do I start a project?",
+  ],
+  ru: [
+    "Какие проекты вы реализуете?",
+    "Каковы ваши сроки?",
+    "Как начать проект?",
+  ],
+};
+
+const PLACEHOLDER: Record<Lang, string> = {
+  fr: "Votre message…",
+  en: "Your message…",
+  ru: "Ваше сообщение…",
+};
 
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
@@ -21,6 +47,7 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const [suggestionsUsed, setSuggestionsUsed] = useState(false);
+  const [lang, setLang] = useState<Lang>("fr");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +77,7 @@ export default function Chatbot() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updated }),
+        body: JSON.stringify({ messages: updated, lang }),
       });
 
       if (!res.ok || !res.body) throw new Error("Erreur réseau");
@@ -166,7 +193,7 @@ export default function Chatbot() {
                 style={{ background: "linear-gradient(135deg, #27dfe6, #8b7cf6)" }}>
                 <Image src="/floworka-mark-transparent.png" alt="" width={20} height={20} className="object-contain" aria-hidden="true" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <p className="text-text font-semibold text-sm" style={{ fontFamily: "var(--font-space-grotesk)" }}>
                   Flow
                 </p>
@@ -175,6 +202,24 @@ export default function Chatbot() {
                   Assistant Floworka · en ligne
                 </p>
               </div>
+              {/* Language selector */}
+              <div className="flex items-center gap-1 shrink-0">
+                {(["fr", "en", "ru"] as Lang[]).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLang(l)}
+                    className="text-[11px] font-semibold px-2 py-0.5 rounded transition-all duration-150"
+                    style={{
+                      background: lang === l ? "linear-gradient(115deg, #27dfe6, #8b7cf6)" : "transparent",
+                      color: lang === l ? "#02040a" : "rgba(255,255,255,0.35)",
+                      border: lang === l ? "none" : "1px solid rgba(255,255,255,0.1)",
+                    }}
+                    aria-label={`Langue ${l.toUpperCase()}`}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Messages */}
@@ -182,11 +227,11 @@ export default function Chatbot() {
               {messages.length === 0 && (
                 <div className="text-center py-4">
                   <p className="text-muted text-sm mb-5">
-                    Bonjour ! Je suis Flow, l&apos;assistant de Floworka. Comment puis-je vous aider ?
+                    {WELCOME[lang]}
                   </p>
                   {!suggestionsUsed && (
                     <div className="flex flex-col gap-2">
-                      {SUGGESTIONS.map((s) => (
+                      {SUGGESTIONS[lang].map((s) => (
                         <button
                           key={s}
                           onClick={() => send(s)}
@@ -253,7 +298,7 @@ export default function Chatbot() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Votre message…"
+                placeholder={PLACEHOLDER[lang]}
                 aria-label="Message pour Flow"
                 className="flex-1 bg-transparent text-text text-sm placeholder-muted/50 outline-none py-1.5"
                 disabled={typing}

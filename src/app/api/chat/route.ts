@@ -1,11 +1,20 @@
 import { FLOWORKA_SYSTEM_PROMPT } from "@/lib/knowledge";
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages, lang } = await req.json();
 
   if (!messages || !Array.isArray(messages)) {
     return new Response("Messages invalides", { status: 400 });
   }
+
+  const langInstruction =
+    lang === "en"
+      ? "\n\nIMPORTANT: Always respond in English only, regardless of the language the visitor uses. All lead collection messages must also be in English."
+      : lang === "ru"
+      ? "\n\nВАЖНО: Всегда отвечай исключительно на русском языке, независимо от языка посетителя. Все сообщения о сборе контактов тоже на русском."
+      : "\n\nIMPORTANT: Réponds toujours exclusivement en français, quelle que soit la langue utilisée par le visiteur.";
+
+  const systemPrompt = FLOWORKA_SYSTEM_PROMPT + langInstruction;
 
   const resp = await fetch("https://api.deepseek.com/chat/completions", {
     method: "POST",
@@ -18,7 +27,7 @@ export async function POST(req: Request) {
       max_tokens: 512,
       stream: true,
       messages: [
-        { role: "system", content: FLOWORKA_SYSTEM_PROMPT },
+        { role: "system", content: systemPrompt },
         ...messages,
       ],
     }),
