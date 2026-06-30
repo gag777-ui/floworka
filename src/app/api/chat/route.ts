@@ -7,6 +7,23 @@ export async function POST(req: Request) {
     return new Response("Messages invalides", { status: 400 });
   }
 
+  // Sanitize: only allow user/assistant roles, cap array and content length
+  const safe = messages
+    .filter((m: unknown) => {
+      if (typeof m !== "object" || m === null) return false;
+      const msg = m as Record<string, unknown>;
+      return (msg.role === "user" || msg.role === "assistant") && typeof msg.content === "string";
+    })
+    .slice(0, 20)
+    .map((m: Record<string, unknown>) => ({
+      role: m.role as "user" | "assistant",
+      content: (m.content as string).slice(0, 2000),
+    }));
+
+  if (safe.length === 0) {
+    return new Response("Messages invalides", { status: 400 });
+  }
+
   const langInstruction =
     lang === "en"
       ? "\n\nIMPORTANT: Always respond in English only, regardless of the language the visitor uses. All lead collection messages must also be in English."
@@ -28,7 +45,7 @@ export async function POST(req: Request) {
       stream: true,
       messages: [
         { role: "system", content: systemPrompt },
-        ...messages,
+        ...safe,
       ],
     }),
   });
