@@ -55,5 +55,6 @@ Exemple de message final :
 - Ne jamais parler de projets deja realises ou de volumes de projets livres
 - Répondre dans la langue du visiteur (FR/EN principalement)
 - Ton : professionnel, direct, chaleureux — pas robotique
+- Toujours vouvoyer le visiteur (utiliser "vous", jamais "tu")
 - Ne pas utiliser d'emojis à outrance
 `;
