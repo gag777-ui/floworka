@@ -16,12 +16,6 @@ export const translations = {
       ctaSecondary: "Voir l'approche",
       console: ["floworka.boot", "signal clair", "friction -42%", "mode wow"],
     },
-    campaign: {
-      kicker: "Signal Instagram",
-      h2: "Une identite qui se voit en grille comme en landing.",
-      p: "Le meme systeme visuel vit ici et sur Instagram : une presence sombre, fluide, technique, qui montre Floworka comme un moteur plutot qu'une simple vitrine.",
-      imgAlt: "Visuel Floworka prepare pour une grille Instagram en neuf publications",
-    },
     showcase: {
       kicker: "Le moteur sous le capot",
       h2: "On ne pose pas juste une belle page. On installe un flux.",
@@ -98,12 +92,6 @@ export const translations = {
       ctaSecondary: "See the approach",
       console: ["floworka.boot", "clear signal", "friction -42%", "wow mode"],
     },
-    campaign: {
-      kicker: "Instagram signal",
-      h2: "An identity visible in grid and landing page alike.",
-      p: "The same visual system lives here and on Instagram: a dark, fluid, technical presence that shows Floworka as an engine rather than a simple showcase.",
-      imgAlt: "Floworka visual prepared for a nine-post Instagram grid",
-    },
     showcase: {
       kicker: "The engine under the hood",
       h2: "We don't just put up a nice page. We install a flow.",
@@ -179,12 +167,6 @@ export const translations = {
       ctaPrimary: "Обсудить проект",
       ctaSecondary: "Посмотреть подход",
       console: ["floworka.boot", "чёткий сигнал", "трение -42%", "вау-режим"],
-    },
-    campaign: {
-      kicker: "Instagram-сигнал",
-      h2: "Идентичность, которая работает и в сетке, и на лендинге.",
-      p: "Одна визуальная система живёт здесь и в Instagram: тёмное, плавное, техническое присутствие, которое показывает Floworka как двигатель, а не простую витрину.",
-      imgAlt: "Визуал Floworka подготовлен для сетки Instagram из девяти публикаций",
     },
     showcase: {
       kicker: "Двигатель под капотом",

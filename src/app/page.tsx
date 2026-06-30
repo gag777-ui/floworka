@@ -73,26 +73,7 @@ export default function Home() {
 
         <FlowShowcase />
 
-        <section className="flow-campaign px-5 py-24 sm:px-8" aria-label="Campagne visuelle Floworka">
-          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div>
-              <p className="flow-kicker">{t.campaign.kicker}</p>
-              <h2 className="flow-heading">{t.campaign.h2}</h2>
-              <p className="flow-section-copy">{t.campaign.p}</p>
-            </div>
-            <div className="flow-campaign-visual">
-              <Image
-                src="/floworka-instagram-puzzle.png"
-                alt={t.campaign.imgAlt}
-                width={1200}
-                height={1200}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section id="atelier" className="flow-section px-5 py-24 sm:px-8" aria-label="Approche">
+<section id="atelier" className="flow-section px-5 py-24 sm:px-8" aria-label="Approche">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
               <div>
