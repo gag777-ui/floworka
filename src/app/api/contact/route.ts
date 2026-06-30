@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
   try {
     await resend.emails.send({
-      from: "Flow <noreply@floworka.com>",
+      from: "Flow <onboarding@resend.dev>",
       to: [toEmail],
       replyTo: email,
       subject: `[Floworka] Nouveau message — ${projectType ?? "Non précisé"}`,
