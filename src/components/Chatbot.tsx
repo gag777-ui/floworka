@@ -34,6 +34,8 @@ export default function Chatbot() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
+  const LEAD_RE = /\[LEAD:(\{[^}]+\})\]/;
+
   const send = async (text: string) => {
     if (!text.trim() || typing) return;
     setSuggestionsUsed(true);
@@ -69,6 +71,35 @@ export default function Chatbot() {
           return copy;
         });
       }
+
+      // Detect lead marker once stream is complete
+      setMessages((prev) => {
+        const copy = [...prev];
+        const last = copy[copy.length - 1];
+        if (last?.role !== "assistant") return prev;
+        const match = last.content.match(LEAD_RE);
+        if (!match) return prev;
+
+        // Strip marker from display
+        copy[copy.length - 1] = {
+          role: "assistant",
+          content: last.content.replace(LEAD_RE, "").trim(),
+        };
+
+        // Send lead async (fire and forget)
+        try {
+          const lead = JSON.parse(match[1]);
+          fetch("/api/lead", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(lead),
+          }).catch(() => {});
+        } catch {
+          // malformed JSON in marker — ignore
+        }
+
+        return copy;
+      });
     } catch {
       setMessages((prev) => [
         ...prev,
