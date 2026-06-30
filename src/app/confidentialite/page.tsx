@@ -35,7 +35,7 @@ export default function Confidentialite() {
           <section>
             <h2 className="text-text font-semibold text-lg mb-2">Chatbot</h2>
             <p>
-              Les échanges avec le chatbot sont traités via l&apos;API Anthropic (Claude). Les messages
+              Les échanges avec le chatbot sont traités via l&apos;API DeepSeek. Les messages
               sont envoyés à des fins de génération de réponse uniquement, sans stockage permanent de notre côté.
             </p>
           </section>
@@ -52,7 +52,7 @@ export default function Confidentialite() {
             <h2 className="text-text font-semibold text-lg mb-2">Vos droits</h2>
             <p>
               Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et de
-              suppression de vos données. Pour exercer ces droits : <a href="mailto:gag_zconcept@hotmail.com" className="text-aurora-cyan hover:underline">gag_zconcept@hotmail.com</a>.
+              suppression de vos données. Pour exercer ces droits : <a href="mailto:contact@floworka.com" className="text-aurora-cyan hover:underline">contact@floworka.com</a>.
             </p>
           </section>
 
