@@ -6,18 +6,30 @@ import "@fontsource/space-grotesk/latin-500.css";
 import "@fontsource/space-grotesk/latin-600.css";
 import "@fontsource/space-grotesk/latin-700.css";
 import "./globals.css";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://floworka.com"), // TODO: mettre à jour avec le vrai domaine
-  title: "Floworka - Automatisation & Creation",
+  metadataBase: new URL("https://floworka.com"),
+  title: "Floworka — Automatisation & Création | Studio produit",
   description:
-    "Studio produit independant pour sites, apps, automatisations et assistants IA utiles.",
-  keywords: ["studio produit", "SaaS", "application web", "chatbot IA", "automatisation", "Belgique"],
-  authors: [{ name: "Floworka" }],
+    "Floworka crée des sites, applications web, assistants IA et automatisations sur mesure. Studio produit indépendant francophone. Résultat livrable, pas de blabla.",
+  keywords: [
+    "studio produit",
+    "création site web",
+    "application web sur mesure",
+    "automatisation",
+    "assistant IA",
+    "chatbot IA",
+    "Belgique",
+    "France",
+    "freelance développeur web",
+  ],
+  authors: [{ name: "Floworka", url: "https://floworka.com" }],
+  creator: "Floworka",
   openGraph: {
-    title: "Floworka - Automatisation & Creation",
+    title: "Floworka — Automatisation & Création",
     description:
-      "Studio produit independant pour sites, apps, automatisations et assistants IA utiles.",
+      "Sites, apps, assistants IA et automatisations sur mesure. Studio produit indépendant — on livre quelque chose qui bouge.",
     url: "https://floworka.com",
     siteName: "Floworka",
     locale: "fr_BE",
@@ -27,20 +39,40 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Floworka - Automatisation & Creation",
+        alt: "Floworka — Automatisation & Création",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Floworka - Automatisation & Creation",
+    title: "Floworka — Automatisation & Création",
     description:
-      "Studio produit independant pour sites, apps, automatisations et assistants IA utiles.",
+      "Sites, apps, assistants IA et automatisations sur mesure. Studio produit indépendant.",
   },
   robots: { index: true, follow: true },
+  alternates: {
+    canonical: "https://floworka.com",
+  },
 };
 
-import { LanguageProvider } from "@/contexts/LanguageContext";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Floworka",
+  url: "https://floworka.com",
+  email: "contact@floworka.com",
+  description:
+    "Studio produit indépendant spécialisé en création de sites web, applications, assistants IA et automatisations sur mesure.",
+  slogan: "Automatisation & Création",
+  areaServed: ["FR", "BE"],
+  availableLanguage: ["French", "English", "Russian"],
+  serviceType: [
+    "Création de site web",
+    "Application web sur mesure",
+    "Assistant IA",
+    "Automatisation",
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -49,6 +81,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={GeistSans.variable}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-ink text-text antialiased">
         <LanguageProvider>{children}</LanguageProvider>
       </body>
