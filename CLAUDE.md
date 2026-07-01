@@ -118,13 +118,20 @@ DEEPSEEK_API_KEY=...
 - Chaque push sur `main` declenche un deploy automatique Vercel
 - Deploy manuel : `vercel --prod --yes`
 
+## SEO / Google
+
+- `src/app/sitemap.ts` — genere `/sitemap.xml` (home + mentions + confidentialite)
+- `src/app/robots.ts` — genere `/robots.txt` (tout autorise sauf `/api/`)
+- JSON-LD `ProfessionalService` Schema.org injecte dans le `<head>` via `layout.tsx`
+- **Google Search Console** : domaine floworka.com verifie (DNS TXT sur Infomaniak), sitemap soumis le 2026-07-01, indexation demandee
+- Indexation Google attendue sous 24-72h
+
 ## Todo restant
 
 - [ ] Rate limiting sur les API routes (Upstash Redis)
-- [ ] Image OG (`/public/og-image.png` 1200x630)
+- [ ] Image OG (`/public/og-image.png` 1200x630) — priorite pour le partage sur reseaux sociaux
 - [ ] Favicon SVG/ICO
-- [ ] sitemap.xml + robots.txt
-- [ ] Remplir les placeholders dans mentions-legales (nom, statut juridique, adresse)
+- [ ] Remplir les placeholders dans mentions-legales (nom complet, statut juridique, adresse)
 
 ## Audit (2026-07-01) — tout passe
 
