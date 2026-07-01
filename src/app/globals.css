@@ -199,44 +199,6 @@ body {
   transform: translateY(-2px);
 }
 
-.flow-menu {
-  display: grid;
-  gap: 6px;
-  width: 44px;
-  height: 44px;
-  place-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-}
-
-.flow-menu span {
-  display: block;
-  width: 18px;
-  height: 1px;
-  background: #ffffff;
-}
-
-.flow-mobile-menu {
-  display: grid;
-  max-height: 0;
-  overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0);
-  background: rgba(2, 4, 10, 0.94);
-  backdrop-filter: blur(20px);
-  transition: max-height 220ms ease, border-color 220ms ease;
-}
-
-.flow-mobile-menu.is-open {
-  max-height: 180px;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.flow-mobile-menu a {
-  padding: 18px 24px;
-  color: rgba(255, 255, 255, 0.72);
-  font-weight: 700;
-}
-
 .flow-hero {
   background:
     radial-gradient(ellipse at 76% 34%, rgba(46, 255, 217, 0.26), transparent 28%),
@@ -743,6 +705,57 @@ body {
 
 .flow-section .flow-heading {
   color: #eef2fb;
+}
+
+.flow-campaign {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 78% 46%, rgba(77, 255, 218, 0.16), transparent 28%),
+    radial-gradient(ellipse at 18% 70%, rgba(139, 124, 246, 0.15), transparent 30%),
+    #02040a;
+}
+
+.flow-campaign::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at 70% 50%, black 20%, transparent 72%);
+}
+
+.flow-campaign > div {
+  position: relative;
+  z-index: 1;
+}
+
+.flow-campaign-visual {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 28px 120px rgba(0, 0, 0, 0.42), 0 0 80px rgba(77, 255, 218, 0.14);
+}
+
+.flow-campaign-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 60%, rgba(2, 4, 10, 0.34));
+}
+
+.flow-campaign-visual img {
+  transition: transform 700ms ease;
+}
+
+.flow-campaign-visual:hover img {
+  transform: scale(1.035);
 }
 
 .flow-rail {
