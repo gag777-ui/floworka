@@ -133,6 +133,12 @@ DEEPSEEK_API_KEY=...
 - [ ] Favicon SVG/ICO
 - [ ] Remplir les placeholders dans mentions-legales (nom complet, statut juridique, adresse)
 
+## Etat du repo (2026-07-01)
+
+- Working tree propre — 0 fichier en attente
+- Dernier commit : `0d10ca2` — chore: commit final assets Instagram + nettoyage CSS
+- Branch `main` a jour avec GitHub et Vercel
+
 ## Audit (2026-07-01) — tout passe
 
 | Check | Resultat |
@@ -160,3 +166,4 @@ DEEPSEEK_API_KEY=...
 - `public/floworka-transparent.png` — logo complet detoure PNG RGBA
 - `public/floworka-mark-transparent.png` — symbole seul detoure PNG RGBA (utilise dans home, nav, footer, chatbot)
 - `public/floworka-instagram-puzzle.png` — visuel 9 cases Instagram (non monte sur le site)
+- `public/instagram/floworka-puzzle/` — 9 cases separees + ordre d'upload pour grille Instagram
